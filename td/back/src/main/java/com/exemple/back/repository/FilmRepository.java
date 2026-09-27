@@ -1,6 +1,8 @@
 package com.exemple.back.repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
@@ -33,8 +35,11 @@ public class FilmRepository {
     public boolean existsById( Long id){
         return films.get(id)!=null;
     }
-    public void DeleteById (Long id){
+    public void deleteById (Long id){
         films.remove(id);
             }
+    public List<Film> findAll() {
+        return new ArrayList<>(films.values());
+        }
 }
 
