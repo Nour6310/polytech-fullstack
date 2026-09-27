@@ -2,9 +2,7 @@
 package com.exemple.back.model;
 
 import java.time.LocalDate;
-
 public class Film {
-
     private Long id;
     private String titre;
     private String realisateur;
@@ -13,8 +11,7 @@ public class Film {
 
     public Film() { }
 
-    public Film(Long id, String titre, String realisateur,
-                LocalDate dateSortie, Genre genre) {
+    public Film(Long id, String titre, String realisateur,LocalDate dateSortie, Genre genre) {
         this.id = id;
         this.titre = titre;
         this.realisateur = realisateur;
