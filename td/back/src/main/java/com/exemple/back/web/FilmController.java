@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,7 +40,10 @@ public class FilmController{
     public Film update(@PathVariable Long id, @RequestBody Film film) {
         return filmService.update(id, film);
     }
-
+    @DeleteMapping("/{id:\\d+}")
+    public void deleteById(@PathVariable Long id){
+        filmService.deleteById(id);
+    } 
     
 
  }
