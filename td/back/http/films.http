@@ -30,7 +30,7 @@ PUT http://localhost:8080/films/1
 Content-Type: application/json
 
 {
-  "titre": "Blade Runner",
+  "titre": "Blade Runner (Director's Cut) ",
   "realisateur": "Ridley Scott",
   "dateSortie": "1982-06-25",
   "genre": "ScienceFiction"
