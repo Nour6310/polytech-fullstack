@@ -19,5 +19,11 @@ public class FilmController{
     public List<Film> findAll(){
         return filmService.findAll();
     }
+    @GetMapping("/{id:\\d+}")
+    public Film findById(Long id){
+        return filmService.findById(id);
+    }
+
+    
 
  }
