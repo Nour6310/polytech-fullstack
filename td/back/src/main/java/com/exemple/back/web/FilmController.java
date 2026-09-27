@@ -41,9 +41,9 @@ public class FilmController{
         return filmService.update(id, film);
     }
     @DeleteMapping("/{id:\\d+}")
-    public void deleteById(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         filmService.deleteById(id);
-    } 
-    
+        return ResponseEntity.noContent().build();
+    }
 
  }
