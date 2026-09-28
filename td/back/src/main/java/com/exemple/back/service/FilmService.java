@@ -16,11 +16,12 @@ public class FilmService {
     public List<Film> findAll(){
         return filmRepository.findAll();
     }
-    public Film findById(Long id){
-        if (filmRepository.existsById(id)==false){
+   
+    public Film findById(Long id) {
+        if (!filmRepository.existsById(id)) {
             throw new FilmNotFoundException(id);
         }
-        return filmRepository.findById(id);
+        return filmRepository.findById(id).get();
     }
     public Film save(Film film ){
         film.setId(null);
