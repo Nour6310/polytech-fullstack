@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.exemple.back.dto.ActeurCreationDto;
 import com.exemple.back.dto.ActeurDto;
+import com.exemple.back.dto.FilmDto;
 import com.exemple.back.service.ActeurService;
 
 @RestController
@@ -53,5 +54,9 @@ public class ActeurController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         acteurService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/{id:\\d+}/films")
+    public List<FilmDto> findFilms(@PathVariable Long id) {
+        return acteurService.findFilms(id);
     }
 }

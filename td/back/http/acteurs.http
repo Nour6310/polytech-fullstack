@@ -42,3 +42,10 @@ Content-Type: application/json
 
 ### 8. Suppression d'un identifiant inconnu — attendu : 404 au format ProblemDetail
 DELETE http://localhost:8080/acteurs/9999
+### Les films d'un acteur (@Query) — attendu : 200, Parasite
+GET http://localhost:8080/acteurs/3/films
+Accept: application/json
+
+### Les films d'un acteur inconnu — attendu : 404 au format ProblemDetail
+GET http://localhost:8080/acteurs/9999/films
+Accept: application/json

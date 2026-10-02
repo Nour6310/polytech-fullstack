@@ -8,17 +8,22 @@ import org.springframework.transaction.annotation.Transactional;
 import com.exemple.back.dto.ActeurCreationDto;
 import com.exemple.back.dto.ActeurDto;
 import com.exemple.back.dto.ActeurMapper;
+import com.exemple.back.dto.FilmDto;
+import com.exemple.back.dto.FilmMapper;
 import com.exemple.back.model.Acteur;
 import com.exemple.back.model.Film;
 import com.exemple.back.repository.ActeurRepository;
+import com.exemple.back.repository.FilmRepository;
 
 @Service
 public class ActeurService {
 
     private final ActeurRepository acteurRepository;
+    private final FilmRepository filmRepository;
 
-    public ActeurService(ActeurRepository acteurRepository) {
+    public ActeurService(ActeurRepository acteurRepository, FilmRepository filmRepository) {
         this.acteurRepository = acteurRepository;
+        this.filmRepository = filmRepository;
     }
 
     public List<ActeurDto> findAll() {
@@ -60,5 +65,13 @@ public class ActeurService {
             film.getActeurs().remove(acteur);
         }
         acteurRepository.delete(acteur);
+    }
+    public List<FilmDto> findFilms(Long acteurId) {
+        if (!acteurRepository.existsById(acteurId)) {
+            throw new ActeurNotFoundException(acteurId);
+        }
+        return filmRepository.findFilmsDeActeur(acteurId).stream()
+                .map(FilmMapper::toDto)
+                .toList();
     }
 }

@@ -54,3 +54,10 @@ POST http://localhost:8080/films/2/acteurs/9999
 
 ### Association avec un film inconnu — attendu : 404 au format ProblemDetail
 POST http://localhost:8080/films/9999/acteurs/1
+### Les acteurs d'un film (convention de nommage) — attendu : 200, Song Kang-ho
+GET http://localhost:8080/films/3/acteurs
+Accept: application/json
+
+### Les acteurs d'un film inconnu — attendu : 404 au format ProblemDetail
+GET http://localhost:8080/films/9999/acteurs
+Accept: application/json

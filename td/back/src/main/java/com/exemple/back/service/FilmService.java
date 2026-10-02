@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.exemple.back.dto.ActeurDto;
+import com.exemple.back.dto.ActeurMapper;
 import com.exemple.back.dto.FilmCreationDto;
 import com.exemple.back.dto.FilmDetailDto;
 import com.exemple.back.dto.FilmDto;
@@ -80,4 +82,13 @@ public class FilmService {
                 .orElseThrow(() -> new ActeurNotFoundException(acteurId));
         film.getActeurs().remove(acteur);
     }
+    public List<ActeurDto> findActeurs(Long filmId) {
+        if (!filmRepository.existsById(filmId)) {
+            throw new FilmNotFoundException(filmId);
+        }
+        return acteurRepository.findByFilmsId(filmId).stream()
+                .map(ActeurMapper::toDto)
+                .toList();
+    }
+    
 }

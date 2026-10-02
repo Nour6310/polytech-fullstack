@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.exemple.back.dto.ActeurDto;
 import com.exemple.back.dto.FilmCreationDto;
 import com.exemple.back.dto.FilmDetailDto;
 import com.exemple.back.dto.FilmDto;
@@ -63,5 +64,9 @@ public class FilmController {
     public ResponseEntity<Void> retirerActeur(@PathVariable Long id, @PathVariable Long acteurId) {
         filmService.retirerActeur(id, acteurId);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/{id:\\d+}/acteurs")
+    public List<ActeurDto> findActeurs(@PathVariable Long id) {
+        return filmService.findActeurs(id);
     }
 }
