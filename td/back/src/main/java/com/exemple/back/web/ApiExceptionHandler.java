@@ -5,6 +5,7 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.exemple.back.service.ActeurNotFoundException;
 import com.exemple.back.service.FilmNotFoundException;
 
 
@@ -14,6 +15,10 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(FilmNotFoundException.class)
     public ProblemDetail handleFilmNotFound(FilmNotFoundException e) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
+    }
+    @ExceptionHandler(ActeurNotFoundException.class)
+    public ProblemDetail handleActeurNotFound(ActeurNotFoundException e) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
     }
 }

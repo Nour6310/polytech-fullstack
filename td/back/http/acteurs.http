@@ -1,0 +1,44 @@
+### 1. Liste des acteurs (sans leurs films) — attendu : 200
+GET http://localhost:8080/acteurs
+Accept: application/json
+
+### 2. Un acteur par son identifiant — attendu : 200
+GET http://localhost:8080/acteurs/1
+Accept: application/json
+
+### 3. Création — attendu : 201 Created + en-tête Location: /acteurs/4
+POST http://localhost:8080/acteurs
+Content-Type: application/json
+
+{
+  "prenom": "Tom",
+  "nom": "Hardy"
+}
+
+### 4. Mise à jour — attendu : 200 avec l'acteur modifié
+PUT http://localhost:8080/acteurs/4
+Content-Type: application/json
+
+{
+  "prenom": "Thomas",
+  "nom": "Hardy"
+}
+
+### 5. Suppression — attendu : 204 No Content
+DELETE http://localhost:8080/acteurs/4
+
+### 6. Lecture d'un identifiant inconnu — attendu : 404 au format ProblemDetail
+GET http://localhost:8080/acteurs/9999
+Accept: application/json
+
+### 7. Mise à jour d'un identifiant inconnu — attendu : 404 au format ProblemDetail
+PUT http://localhost:8080/acteurs/9999
+Content-Type: application/json
+
+{
+  "prenom": "Personne",
+  "nom": "Inconnu"
+}
+
+### 8. Suppression d'un identifiant inconnu — attendu : 404 au format ProblemDetail
+DELETE http://localhost:8080/acteurs/9999
