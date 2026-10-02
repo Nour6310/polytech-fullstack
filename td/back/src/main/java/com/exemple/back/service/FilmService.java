@@ -3,8 +3,10 @@ package com.exemple.back.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.exemple.back.dto.FilmCreationDto;
+import com.exemple.back.dto.FilmDetailDto;
 import com.exemple.back.dto.FilmDto;
 import com.exemple.back.dto.FilmMapper;
 import com.exemple.back.model.Film;
@@ -24,12 +26,13 @@ public class FilmService {
                 .map(FilmMapper::toDto)
                 .toList();
     }
-    public FilmDto findById(Long id) {
+    @Transactional(readOnly = true)
+    public FilmDetailDto findById(Long id) {
         if (!filmRepository.existsById(id)) {
             throw new FilmNotFoundException(id);
         }
         Film film = filmRepository.findById(id).get();
-        return FilmMapper.toDto(film);
+        return FilmMapper.toDetailDto(film);
     }
     public FilmDto save(FilmCreationDto dto) {
         Film film = FilmMapper.toEntity(dto);

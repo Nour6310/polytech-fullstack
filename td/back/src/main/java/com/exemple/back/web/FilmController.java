@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.exemple.back.dto.FilmCreationDto;
+import com.exemple.back.dto.FilmDetailDto;
 import com.exemple.back.dto.FilmDto;
 import com.exemple.back.service.FilmService;
 
@@ -33,7 +34,7 @@ public class FilmController {
     }
 
     @GetMapping("/{id:\\d+}")
-    public FilmDto findById(@PathVariable Long id) {
+    public FilmDetailDto findById(@PathVariable Long id) {
         return filmService.findById(id);
     }
 
