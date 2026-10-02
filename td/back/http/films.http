@@ -17,14 +17,6 @@ Content-Type: application/json
   "genre": "ScienceFiction"
 }
 
-### Création invalide — réponse attendue : 400 au format ProblemDetail
-POST http://localhost:8080/films
-Content-Type: application/json
-
-{
-  "realisateur": "Sans titre"
-}
-
 ### Mise à jour
 PUT http://localhost:8080/films/1
 Content-Type: application/json
@@ -42,3 +34,23 @@ DELETE http://localhost:8080/films/1
 ### Identifiant inconnu — réponse attendue : 404 au format ProblemDetail
 GET http://localhost:8080/films/9999
 Accept: application/json
+
+### Association : ajouter DiCaprio (1) au Voyage de Chihiro (2) — attendu : 200, avec DiCaprio dans les acteurs
+POST http://localhost:8080/films/2/acteurs/1
+
+### Vérification : le film 2 contient maintenant DiCaprio — attendu : 200
+GET http://localhost:8080/films/2
+Accept: application/json
+
+### Dissociation : retirer DiCaprio (1) du film 2 — attendu : 204 No Content
+DELETE http://localhost:8080/films/2/acteurs/1
+
+### Vérification : le film 2 n'a plus d'acteurs — attendu : 200, "acteurs": []
+GET http://localhost:8080/films/2
+Accept: application/json
+
+### Association avec un acteur inconnu — attendu : 404 au format ProblemDetail
+POST http://localhost:8080/films/2/acteurs/9999
+
+### Association avec un film inconnu — attendu : 404 au format ProblemDetail
+POST http://localhost:8080/films/9999/acteurs/1

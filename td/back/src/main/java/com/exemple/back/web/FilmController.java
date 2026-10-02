@@ -55,4 +55,13 @@ public class FilmController {
         filmService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+    @PostMapping("/{id:\\d+}/acteurs/{acteurId:\\d+}")
+    public FilmDetailDto ajouterActeur(@PathVariable Long id, @PathVariable Long acteurId) {
+        return filmService.ajouterActeur(id, acteurId);
+    }
+    @DeleteMapping("/{id:\\d+}/acteurs/{acteurId:\\d+}")
+    public ResponseEntity<Void> retirerActeur(@PathVariable Long id, @PathVariable Long acteurId) {
+        filmService.retirerActeur(id, acteurId);
+        return ResponseEntity.noContent().build();
+    }
 }
