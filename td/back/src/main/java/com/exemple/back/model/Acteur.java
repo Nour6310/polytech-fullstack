@@ -1,10 +1,14 @@
 package com.exemple.back.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class Acteur {
@@ -15,6 +19,8 @@ public class Acteur {
     private String prenom;
     @Column(nullable = false, length = 100)
     private String nom;
+    @ManyToMany(mappedBy = "acteurs")
+    private Set<Film> films = new HashSet<>();
     public Acteur() { }
 
     public Long getId() { 
@@ -25,6 +31,9 @@ public class Acteur {
         }
     public String getNom() { 
         return nom; 
+        }
+    public Set<Film> getFilms() { 
+        return films; 
         }
     public void setId(Long id) { 
         this.id = id; 
