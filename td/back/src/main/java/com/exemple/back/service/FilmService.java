@@ -39,14 +39,17 @@ public class FilmService {
         Film filmEnregistre = filmRepository.save(film);
         return FilmMapper.toDto(filmEnregistre);
     }
+        @Transactional
     public FilmDto update(Long id, FilmCreationDto dto) {
         if (!filmRepository.existsById(id)) {
             throw new FilmNotFoundException(id);
         }
-        Film film = FilmMapper.toEntity(dto);
-        film.setId(id);
-        Film filmModifie = filmRepository.save(film);
-        return FilmMapper.toDto(filmModifie);
+        Film film = filmRepository.findById(id).get();
+        film.setTitre(dto.titre());
+        film.setRealisateur(dto.realisateur());
+        film.setDateSortie(dto.dateSortie());
+        film.setGenre(dto.genre());
+        return FilmMapper.toDto(filmRepository.save(film));
     }
     public void deleteById(Long id) {
         if (!filmRepository.existsById(id)) {
