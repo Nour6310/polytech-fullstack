@@ -4,40 +4,51 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.exemple.back.dto.FilmCreationDto;
+import com.exemple.back.dto.FilmDto;
+import com.exemple.back.dto.FilmMapper;
 import com.exemple.back.model.Film;
 import com.exemple.back.repository.FilmRepository;
 
 @Service
 public class FilmService {
-    private final FilmRepository filmRepository ;
-    public  FilmService( FilmRepository filmRepository){
-        this.filmRepository=filmRepository;
+
+    private final FilmRepository filmRepository;
+
+    public FilmService(FilmRepository filmRepository) {
+        this.filmRepository = filmRepository;
     }
-    public List<Film> findAll(){
-        return filmRepository.findAll();
+    public List<FilmDto> findAll() {
+        List<Film> films = filmRepository.findAll();
+        return films.stream()
+                .map(FilmMapper::toDto)
+                .toList();
     }
-   
-    public Film findById(Long id) {
+    public FilmDto findById(Long id) {
         if (!filmRepository.existsById(id)) {
             throw new FilmNotFoundException(id);
         }
-        return filmRepository.findById(id).get();
+        Film film = filmRepository.findById(id).get();
+        return FilmMapper.toDto(film);
     }
-    public Film save(Film film ){
-        film.setId(null);
-        return filmRepository.save(film);
-        }
-    public void deleteById(Long id){
-        if(filmRepository.existsById(id)==false){
-            throw new FilmNotFoundException(id);
-            }
-        filmRepository.deleteById(id);   
+    public FilmDto save(FilmCreationDto dto) {
+        Film film = FilmMapper.toEntity(dto);
+        Film filmEnregistre = filmRepository.save(film);
+        return FilmMapper.toDto(filmEnregistre);
     }
-    public Film update(Long id,Film film){
-        if(filmRepository.existsById(id)==false){
+    public FilmDto update(Long id, FilmCreationDto dto) {
+        if (!filmRepository.existsById(id)) {
             throw new FilmNotFoundException(id);
         }
+        Film film = FilmMapper.toEntity(dto);
         film.setId(id);
-        return filmRepository.save(film);
+        Film filmModifie = filmRepository.save(film);
+        return FilmMapper.toDto(filmModifie);
+    }
+    public void deleteById(Long id) {
+        if (!filmRepository.existsById(id)) {
+            throw new FilmNotFoundException(id);
+        }
+        filmRepository.deleteById(id);
     }
 }

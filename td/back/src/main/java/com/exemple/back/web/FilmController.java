@@ -13,37 +13,45 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.exemple.back.model.Film;
+import com.exemple.back.dto.FilmCreationDto;
+import com.exemple.back.dto.FilmDto;
 import com.exemple.back.service.FilmService;
 
 @RestController
 @RequestMapping("/films")
-public class FilmController{
-    private final FilmService filmService ;
-    public FilmController(FilmService filmService){
-        this.filmService=filmService;    }
+public class FilmController {
+
+    private final FilmService filmService;
+
+    public FilmController(FilmService filmService) {
+        this.filmService = filmService;
+    }
+
     @GetMapping
-    public List<Film> findAll(){
+    public List<FilmDto> findAll() {
         return filmService.findAll();
     }
+
     @GetMapping("/{id:\\d+}")
-    public Film findById(@PathVariable  Long id){
+    public FilmDto findById(@PathVariable Long id) {
         return filmService.findById(id);
     }
+
     @PostMapping
-    public ResponseEntity<Film> save(@RequestBody Film film){
-        Film nouveaufilm=filmService.save(film);
-        URI location=URI.create("/films/"+nouveaufilm.getId());
-        return ResponseEntity.created(location).body(nouveaufilm);
+    public ResponseEntity<FilmDto> save(@RequestBody FilmCreationDto film) {
+        FilmDto nouveauFilm = filmService.save(film);
+        URI location = URI.create("/films/" + nouveauFilm.id());
+        return ResponseEntity.created(location).body(nouveauFilm);
     }
+
     @PutMapping("/{id:\\d+}")
-    public Film update(@PathVariable Long id, @RequestBody Film film) {
+    public FilmDto update(@PathVariable Long id, @RequestBody FilmCreationDto film) {
         return filmService.update(id, film);
     }
+
     @DeleteMapping("/{id:\\d+}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         filmService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-
- }
+}
