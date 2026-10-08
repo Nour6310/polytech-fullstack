@@ -1,0 +1,12 @@
+.carte {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.ancien {
+  color: #8a5a00;
+  font-style: italic;
+}

@@ -1,0 +1,6 @@
+<div class="carte" [class.ancien]="estAncien()">
+  <a [routerLink]="['/films', film().id]">{{ film().titre }}</a>
+  <span>{{ film().realisateur }}</span>
+  <span>{{ film().dateSortie | date: 'dd/MM/yyyy' }}</span>
+  <button type="button" (click)="onSupprimer()">Supprimer</button>
+</div>

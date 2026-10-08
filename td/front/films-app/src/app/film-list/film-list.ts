@@ -1,14 +1,14 @@
 import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 import { FilmService } from '../film-service';
 import { Film } from '../film.model';
+import { FilmCard } from '../film-card/film-card';
 
 @Component({
   selector: 'app-film-list',
-  imports: [DatePipe, RouterLink],
+  imports: [RouterLink, FilmCard],
   templateUrl: './film-list.html',
   styleUrl: './film-list.css'
 })
@@ -17,9 +17,9 @@ export class FilmList implements OnInit {
   private filmService = inject(FilmService);
   private destroyRef = inject(DestroyRef);
 
-  // l'état de l'écran
   films = signal<Film[]>([]);
   erreur = signal<string | null>(null);
+
   ngOnInit() {
     this.charger();
   }
@@ -35,7 +35,17 @@ export class FilmList implements OnInit {
         error: () => this.erreur.set("Impossible de charger les films. Vérifiez que l'API est démarrée.")
       });
   }
-  estAncien(film: Film): boolean {
-    return new Date(film.dateSortie).getFullYear() < 2000;
+
+  // la carte a signalé une demande de suppression : c'est la liste qui décide
+  onSupprimer(film: Film) {
+    if (!confirm(`Supprimer « ${film.titre} » ?`)) {
+      return;
+    }
+    this.filmService.supprimer(film.id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => this.films.update(liste => liste.filter(f => f.id !== film.id)),
+        error: () => this.erreur.set('Suppression impossible.')
+      });
   }
 }
