@@ -1,0 +1,19 @@
+<h1>Films</h1>
+
+<a routerLink="/films/nouveau">+ Ajouter un film</a>
+
+@if (erreur()) {
+  <p class="erreur">{{ erreur() }}</p>
+}
+
+<ul>
+  @for (f of films(); track f.id) {
+    <li [class.ancien]="estAncien(f)">
+      <a [routerLink]="['/films', f.id]">{{ f.titre }}</a>
+      — {{ f.realisateur }}
+      — {{ f.dateSortie | date: 'dd/MM/yyyy' }}
+    </li>
+  } @empty {
+    <li>Aucun film enregistré.</li>
+  }
+</ul>
