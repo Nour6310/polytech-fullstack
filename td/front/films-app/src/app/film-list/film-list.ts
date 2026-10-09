@@ -23,7 +23,7 @@ export class FilmList implements OnInit {
   ngOnInit() {
     this.charger();
   }
-
+  
   charger() {
     this.filmService.getAll()
       .pipe(takeUntilDestroyed(this.destroyRef))

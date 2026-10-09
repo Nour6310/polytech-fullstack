@@ -13,8 +13,6 @@ import { Film } from '../film.model';
   styleUrl: './film-detail.css'
 })
 export class FilmDetail implements OnInit {
-
-  // le « :id » de l'adresse /films/:id, reçu grâce à withComponentInputBinding()
   id = input.required<string>();
 
   private filmService = inject(FilmService);

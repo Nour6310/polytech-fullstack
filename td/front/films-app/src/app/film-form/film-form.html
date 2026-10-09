@@ -1,0 +1,41 @@
+<h1>{{ edition() ? 'Modifier le film' : 'Nouveau film' }}</h1>
+
+@if (erreur()) {
+  <p class="erreur">{{ erreur() }}</p>
+}
+
+<form #f="ngForm" (ngSubmit)="enregistrer()">
+
+  <label>
+    Titre
+    <input name="titre" [(ngModel)]="titre" required maxlength="200" #champTitre="ngModel" />
+  </label>
+  @if (champTitre.invalid && champTitre.touched) {
+    <small class="erreur">Le titre est obligatoire.</small>
+  }
+
+  <label>
+    Réalisateur
+    <input name="realisateur" [(ngModel)]="realisateur" required />
+  </label>
+
+  <label>
+    Date de sortie
+    <input name="dateSortie" type="date" [(ngModel)]="dateSortie" required />
+  </label>
+
+  <label>
+    Genre
+    <select name="genre" [(ngModel)]="genre" required>
+      <option [ngValue]="''">Choisir un genre</option>
+      @for (g of genres; track g) {
+        <option [ngValue]="g">{{ g }}</option>
+      }
+    </select>
+  </label>
+
+  <div>
+    <button type="submit" [disabled]="f.invalid">Enregistrer</button>
+    <a routerLink="/films">Annuler</a>
+  </div>
+</form>
