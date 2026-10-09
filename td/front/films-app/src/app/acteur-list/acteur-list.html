@@ -4,12 +4,29 @@
   <p class="erreur">{{ erreur() }}</p>
 }
 
-<ul>
-  @for (a of acteurs(); track a.id) {
-    <li>
-      <a [routerLink]="['/acteurs', a.id]">{{ a.prenom }} {{ a.nom }}</a>
-    </li>
-  } @empty {
-    <li>Aucun acteur enregistré.</li>
-  }
-</ul>
+<table>
+  <thead>
+    <tr>
+      <th (click)="trierPar('prenom')">Prénom {{ fleche('prenom') }}</th>
+      <th (click)="trierPar('nom')">Nom {{ fleche('nom') }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (a of acteurs(); track a.id) {
+      <tr>
+        <td><a [routerLink]="['/acteurs', a.id]">{{ a.prenom }}</a></td>
+        <td><a [routerLink]="['/acteurs', a.id]">{{ a.nom }}</a></td>
+      </tr>
+    } @empty {
+      <tr>
+        <td colspan="2">Aucun acteur enregistré.</td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+<div class="pagination">
+  <button (click)="precedent()" [disabled]="estPremiere()">Précédent</button>
+  <span>Page {{ totalPages() === 0 ? 0 : page() + 1 }} / {{ totalPages() }}</span>
+  <button (click)="suivant()" [disabled]="estDerniere()">Suivant</button>
+</div>
