@@ -1,7 +1,11 @@
 package com.exemple.back.service;
 
 import java.util.List;
+import java.util.Set;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,6 +14,7 @@ import com.exemple.back.dto.ActeurDto;
 import com.exemple.back.dto.ActeurMapper;
 import com.exemple.back.dto.FilmDto;
 import com.exemple.back.dto.FilmMapper;
+import com.exemple.back.dto.PageDto;
 import com.exemple.back.model.Acteur;
 import com.exemple.back.model.Film;
 import com.exemple.back.repository.ActeurRepository;
@@ -30,6 +35,23 @@ public class ActeurService {
         return acteurRepository.findAll().stream()
                 .map(ActeurMapper::toDto)
                 .toList();
+    }
+
+    private static final Set<String> COLONNES_TRI = Set.of("id", "prenom", "nom");
+
+    public PageDto<ActeurDto> findPage(int page, int taille, String tri, String direction) {
+        String colonne = COLONNES_TRI.contains(tri) ? tri : "nom";
+        Sort.Direction sens = "desc".equalsIgnoreCase(direction) ? Sort.Direction.DESC : Sort.Direction.ASC;
+        PageRequest pageRequest = PageRequest.of(Math.max(page, 0), Math.max(taille, 1), Sort.by(sens, colonne));
+
+        Page<Acteur> resultat = acteurRepository.findAll(pageRequest);
+        return new PageDto<>(
+                resultat.getContent().stream().map(ActeurMapper::toDto).toList(),
+                resultat.getNumber(),
+                resultat.getSize(),
+                resultat.getTotalElements(),
+                resultat.getTotalPages()
+        );
     }
 
     public ActeurDto findById(Long id) {

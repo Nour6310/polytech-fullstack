@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.exemple.back.dto.ActeurCreationDto;
 import com.exemple.back.dto.ActeurDto;
 import com.exemple.back.dto.FilmDto;
+import com.exemple.back.dto.PageDto;
 import com.exemple.back.service.ActeurService;
 
 @RestController
@@ -31,6 +33,15 @@ public class ActeurController {
     @GetMapping
     public List<ActeurDto> findAll() {
         return acteurService.findAll();
+    }
+
+    @GetMapping("/page")
+    public PageDto<ActeurDto> findPage(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "2") int size,
+            @RequestParam(defaultValue = "nom") String sort,
+            @RequestParam(defaultValue = "asc") String direction) {
+        return acteurService.findPage(page, size, sort, direction);
     }
 
     @GetMapping("/{id:\\d+}")
