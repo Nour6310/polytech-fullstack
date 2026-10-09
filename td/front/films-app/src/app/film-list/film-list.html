@@ -1,13 +1,25 @@
 <h1>Films</h1>
 
-<a routerLink="/films/nouveau">+ Ajouter un film</a>
+<a class="bouton" routerLink="/films/nouveau">+ Ajouter un film</a>
+
+<p>
+  <input
+    type="search"
+    placeholder="Rechercher un titre ou un réalisateur"
+    [(ngModel)]="recherche"
+  />
+</p>
 
 @if (erreur()) {
   <p class="erreur">{{ erreur() }}</p>
 }
 
-@for (f of films(); track f.id) {
+@for (f of filmsFiltres(); track f.id) {
   <app-film-card [film]="f" (supprimer)="onSupprimer($event)" />
 } @empty {
-  <p>Aucun film enregistré.</p>
+  @if (recherche()) {
+    <p>Aucun film ne correspond à « {{ recherche() }} ».</p>
+  } @else {
+    <p>Aucun film enregistré.</p>
+  }
 }

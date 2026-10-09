@@ -1,8 +1,4 @@
-.ancien {
-  color: #8a5a00;
-  font-style: italic;
-}
-
-.erreur {
-  color: crimson;
+input[type="search"] {
+  width: 100%;
+  max-width: 400px;
 }

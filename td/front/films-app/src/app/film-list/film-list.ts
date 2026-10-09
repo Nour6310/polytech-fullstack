@@ -1,5 +1,6 @@
-import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
+import { Component, DestroyRef, OnInit, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
 import { FilmService } from '../film-service';
@@ -8,7 +9,7 @@ import { FilmCard } from '../film-card/film-card';
 
 @Component({
   selector: 'app-film-list',
-  imports: [RouterLink, FilmCard],
+  imports: [RouterLink, FilmCard, FormsModule],
   templateUrl: './film-list.html',
   styleUrl: './film-list.css'
 })
@@ -20,10 +21,22 @@ export class FilmList implements OnInit {
   films = signal<Film[]>([]);
   erreur = signal<string | null>(null);
 
+  // le texte tapé dans le champ de recherche
+  recherche = signal('');
+
+  // les films qui correspondent à la recherche (recalculé automatiquement)
+  filmsFiltres = computed(() => {
+    const terme = this.recherche().trim().toLowerCase();
+    return this.films().filter(f =>
+      f.titre.toLowerCase().includes(terme) ||
+      f.realisateur.toLowerCase().includes(terme)
+    );
+  });
+
   ngOnInit() {
     this.charger();
   }
-  
+
   charger() {
     this.filmService.getAll()
       .pipe(takeUntilDestroyed(this.destroyRef))
