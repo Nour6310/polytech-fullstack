@@ -1,8 +1,10 @@
 package com.exemple.back.dto;
 
+import java.util.Comparator;
 import java.util.List;
 
 import com.exemple.back.model.Film;
+import com.exemple.back.model.Role;
 
 public final class FilmMapper {
     public static FilmDto toDto(Film film) {
@@ -23,8 +25,10 @@ public final class FilmMapper {
         return film;
     }
     public static FilmDetailDto toDetailDto(Film film) {
-        List<ActeurDto> acteurs = film.getActeurs().stream()
-                .map(ActeurMapper::toDto)
+        List<ActeurRoleDto> acteurs = film.getRoles().stream()
+                .sorted(Comparator.comparing((Role r) -> r.getActeur().getNom())
+                        .thenComparing(r -> r.getActeur().getPrenom()))
+                .map(FilmMapper::toActeurRoleDto)
                 .toList();
         return new FilmDetailDto(
                 film.getId(),
@@ -33,6 +37,14 @@ public final class FilmMapper {
                 film.getDateSortie(),
                 film.getGenre(),
                 acteurs
+        );
+    }
+    public static ActeurRoleDto toActeurRoleDto(Role role) {
+        return new ActeurRoleDto(
+                role.getActeur().getId(),
+                role.getActeur().getPrenom(),
+                role.getActeur().getNom(),
+                role.getPersonnage()
         );
     }
 }

@@ -11,8 +11,8 @@ import com.exemple.back.model.Film;
 public interface FilmRepository extends JpaRepository<Film, Long> {
     @Query("""
             select f from Film f
-            join f.acteurs a
-            where a.id = :acteurId
+            join f.roles r
+            where r.acteur.id = :acteurId
             """)
     List<Film> findFilmsDeActeur(@Param("acteurId") Long acteurId);
 }

@@ -11,5 +11,5 @@ public record FilmDetailDto(
         String realisateur,
         LocalDate dateSortie,
         Genre genre,
-        List<ActeurDto> acteurs
+        List<ActeurRoleDto> acteurs
 ) { }

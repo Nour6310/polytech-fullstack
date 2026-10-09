@@ -17,6 +17,7 @@ import com.exemple.back.dto.ActeurDto;
 import com.exemple.back.dto.FilmCreationDto;
 import com.exemple.back.dto.FilmDetailDto;
 import com.exemple.back.dto.FilmDto;
+import com.exemple.back.dto.RoleCreationDto;
 import com.exemple.back.service.FilmService;
 
 @RestController
@@ -57,8 +58,9 @@ public class FilmController {
         return ResponseEntity.noContent().build();
     }
     @PostMapping("/{id:\\d+}/acteurs/{acteurId:\\d+}")
-    public FilmDetailDto ajouterActeur(@PathVariable Long id, @PathVariable Long acteurId) {
-        return filmService.ajouterActeur(id, acteurId);
+    public FilmDetailDto ajouterActeur(@PathVariable Long id, @PathVariable Long acteurId,
+            @RequestBody(required = false) RoleCreationDto role) {
+        return filmService.ajouterActeur(id, acteurId, role);
     }
     @DeleteMapping("/{id:\\d+}/acteurs/{acteurId:\\d+}")
     public ResponseEntity<Void> retirerActeur(@PathVariable Long id, @PathVariable Long acteurId) {

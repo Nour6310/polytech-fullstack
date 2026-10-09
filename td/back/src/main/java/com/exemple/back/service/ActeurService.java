@@ -16,7 +16,7 @@ import com.exemple.back.dto.FilmDto;
 import com.exemple.back.dto.FilmMapper;
 import com.exemple.back.dto.PageDto;
 import com.exemple.back.model.Acteur;
-import com.exemple.back.model.Film;
+import com.exemple.back.model.Role;
 import com.exemple.back.repository.ActeurRepository;
 import com.exemple.back.repository.FilmRepository;
 
@@ -83,8 +83,8 @@ public class ActeurService {
             throw new ActeurNotFoundException(id);
         }
         Acteur acteur = acteurRepository.findById(id).get();
-        for (Film film : acteur.getFilms()) {
-            film.getActeurs().remove(acteur);
+        for (Role role : List.copyOf(acteur.getRoles())) {
+            role.getFilm().getRoles().remove(role);
         }
         acteurRepository.delete(acteur);
     }

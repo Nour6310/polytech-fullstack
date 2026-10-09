@@ -14,12 +14,13 @@ SELECT * FROM (VALUES
 ) AS v(prenom, nom)
 WHERE NOT EXISTS (SELECT 1 FROM acteur);
 
-INSERT INTO film_acteur (film_id, acteur_id)
-SELECT f.id, a.id
-FROM film f
-JOIN acteur a ON (f.titre, a.nom) IN (
-    ('Inception', 'DiCaprio'),
-    ('Inception', 'Cotillard'),
-    ('Parasite', 'Kang-ho')
-)
-WHERE NOT EXISTS (SELECT 1 FROM film_acteur);
+INSERT INTO role (film_id, acteur_id, personnage)
+SELECT f.id, a.id, v.personnage
+FROM (VALUES
+    ('Inception', 'DiCaprio', 'Dom Cobb'),
+    ('Inception', 'Cotillard', 'Mal'),
+    ('Parasite', 'Kang-ho', 'Kim Ki-taek')
+) AS v(titre, nom, personnage)
+JOIN film f ON f.titre = v.titre
+JOIN acteur a ON a.nom = v.nom
+WHERE NOT EXISTS (SELECT 1 FROM role);
