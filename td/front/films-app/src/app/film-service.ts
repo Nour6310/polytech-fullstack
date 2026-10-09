@@ -35,8 +35,8 @@ export class FilmService {
     return this.http.delete<void>(`${this.url}/${id}`);
   }
 
-  associerActeur(filmId: number, acteurId: number): Observable<Film> {
-    return this.http.post<Film>(`${this.url}/${filmId}/acteurs/${acteurId}`, null);
+  associerActeur(filmId: number, acteurId: number, personnage: string | null = null): Observable<Film> {
+    return this.http.post<Film>(`${this.url}/${filmId}/acteurs/${acteurId}`, { personnage });
   }
 
   dissocierActeur(filmId: number, acteurId: number): Observable<void> {

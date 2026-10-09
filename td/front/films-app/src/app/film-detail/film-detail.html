@@ -15,6 +15,9 @@
     @for (a of f.acteurs ?? []; track a.id) {
       <li>
         <a [routerLink]="['/acteurs', a.id]">{{ a.prenom }} {{ a.nom }}</a>
+        @if (a.personnage) {
+          <span class="personnage">dans le rôle de {{ a.personnage }}</span>
+        }
         <button type="button" (click)="dissocier(a)">Retirer</button>
       </li>
     } @empty {
@@ -30,6 +33,7 @@
         <option [ngValue]="a.id">{{ a.prenom }} {{ a.nom }}</option>
       }
     </select>
+    <input type="text" [(ngModel)]="personnage" placeholder="Personnage (facultatif)" maxlength="200">
     <button type="button" (click)="associer()" [disabled]="!acteurSelectionne()">Associer</button>
   } @else {
     <p>Tous les acteurs sont déjà associés à ce film.</p>

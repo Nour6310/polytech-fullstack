@@ -30,6 +30,7 @@ export class FilmDetail implements OnInit {
   tousLesActeurs = signal<Acteur[]>([]);
 
   acteurSelectionne = signal<number | null>(null);
+  personnage = signal('');
 
   acteursDisponibles = computed(() => {
     const dejaDansLeFilm = this.film()?.acteurs ?? [];
@@ -68,11 +69,13 @@ export class FilmDetail implements OnInit {
     if (!film || !acteurId) {
       return;
     }
-    this.filmService.associerActeur(film.id, acteurId)
+    const personnage = this.personnage().trim() || null;
+    this.filmService.associerActeur(film.id, acteurId, personnage)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {
           this.acteurSelectionne.set(null);
+          this.personnage.set('');
           this.charger();
         },
         error: () => this.erreur.set('Association impossible.')
