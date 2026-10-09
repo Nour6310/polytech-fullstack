@@ -18,8 +18,6 @@ export class FilmForm implements OnInit {
   private filmService = inject(FilmService);
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
-
-  // les valeurs de ton enum Genre côté Java
   genres = ['Action', 'Aventure', 'Comedie', 'Drame', 'Fantastique', 'Horreur', 'Policier', 'ScienceFiction'];
 
   titre = signal('');

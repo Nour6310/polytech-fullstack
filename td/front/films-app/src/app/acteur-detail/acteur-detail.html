@@ -1,0 +1,21 @@
+<a routerLink="/acteurs">← Retour aux acteurs</a>
+
+@if (erreur()) {
+  <p class="erreur">{{ erreur() }}</p>
+}
+
+@if (acteur(); as a) {
+  <h1>{{ a.prenom }} {{ a.nom }}</h1>
+
+  <h2>Films</h2>
+  <ul>
+    @for (f of films(); track f.id) {
+      <li>
+        <a [routerLink]="['/films', f.id]">{{ f.titre }}</a>
+        — {{ f.dateSortie | date: 'dd/MM/yyyy' }}
+      </li>
+    } @empty {
+      <li>Aucun film pour cet acteur.</li>
+    }
+  </ul>
+}
