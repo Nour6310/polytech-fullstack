@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { Film } from './film.model';
 import { Acteur } from './acteur.model';
+import { Commentaire } from './commentaire.model';
 
 @Injectable({ providedIn: 'root' })
 export class FilmService {
@@ -41,5 +42,17 @@ export class FilmService {
 
   dissocierActeur(filmId: number, acteurId: number): Observable<void> {
     return this.http.delete<void>(`${this.url}/${filmId}/acteurs/${acteurId}`);
+  }
+
+  getCommentaires(filmId: number): Observable<Commentaire[]> {
+    return this.http.get<Commentaire[]>(`${this.url}/${filmId}/commentaires`);
+  }
+
+  ajouterCommentaire(filmId: number, auteur: string, message: string): Observable<Commentaire> {
+    return this.http.post<Commentaire>(`${this.url}/${filmId}/commentaires`, { auteur, message });
+  }
+
+  supprimerCommentaire(id: number): Observable<void> {
+    return this.http.delete<void>(`/api/commentaires/${id}`);
   }
 }

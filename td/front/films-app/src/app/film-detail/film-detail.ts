@@ -8,6 +8,7 @@ import { FilmService } from '../film-service';
 import { ActeurService } from '../acteur-service';
 import { Film } from '../film.model';
 import { Acteur } from '../acteur.model';
+import { Commentaire } from '../commentaire.model';
 
 @Component({
   selector: 'app-film-detail',
@@ -32,6 +33,11 @@ export class FilmDetail implements OnInit {
   acteurSelectionne = signal<number | null>(null);
   personnage = signal('');
 
+  commentaires = signal<Commentaire[]>([]);
+  auteur = signal('');
+  message = signal('');
+  peutCommenter = computed(() => this.auteur().trim() !== '' && this.message().trim() !== '');
+
   acteursDisponibles = computed(() => {
     const dejaDansLeFilm = this.film()?.acteurs ?? [];
     return this.tousLesActeurs().filter(a => !dejaDansLeFilm.some(d => d.id === a.id));
@@ -39,6 +45,7 @@ export class FilmDetail implements OnInit {
 
   ngOnInit() {
     this.charger();
+    this.chargerCommentaires();
     this.acteurService.getAll()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
@@ -92,6 +99,43 @@ export class FilmDetail implements OnInit {
       .subscribe({
         next: () => this.charger(),
         error: () => this.erreur.set('Dissociation impossible.')
+      });
+  }
+
+  chargerCommentaires() {
+    this.filmService.getCommentaires(Number(this.id()))
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: commentaires => this.commentaires.set(commentaires),
+        error: () => this.erreur.set('Impossible de charger les commentaires.')
+      });
+  }
+
+  commenter() {
+    const film = this.film();
+    if (!film || !this.peutCommenter()) {
+      return;
+    }
+    this.filmService.ajouterCommentaire(film.id, this.auteur().trim(), this.message().trim())
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.message.set('');
+          this.chargerCommentaires();
+        },
+        error: () => this.erreur.set("Impossible d'ajouter le commentaire.")
+      });
+  }
+
+  supprimerCommentaire(commentaire: Commentaire) {
+    if (!confirm(`Supprimer le commentaire de ${commentaire.auteur} ?`)) {
+      return;
+    }
+    this.filmService.supprimerCommentaire(commentaire.id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => this.chargerCommentaires(),
+        error: () => this.erreur.set('Suppression du commentaire impossible.')
       });
   }
 

@@ -7,3 +7,44 @@
   font-style: italic;
   margin: 0 0.5rem;
 }
+
+.commentaires {
+  list-style: none;
+  padding: 0;
+}
+
+.commentaires li {
+  background: var(--carte);
+  border: 1px solid var(--bordure);
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.commentaires .entete {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--gris);
+  margin: 0;
+}
+
+.commentaires .entete button {
+  margin-left: auto;
+}
+
+.commentaires .message {
+  white-space: pre-line;
+  margin: 0.25rem 0 0;
+}
+
+.form-commentaire {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 480px;
+}
+
+.form-commentaire button {
+  align-self: flex-start;
+}

@@ -39,6 +39,28 @@
     <p>Tous les acteurs sont déjà associés à ce film.</p>
   }
 
+  <h2>Commentaires</h2>
+  <ul class="commentaires">
+    @for (c of commentaires(); track c.id) {
+      <li>
+        <p class="entete">
+          <strong>{{ c.auteur }}</strong>, le {{ c.dateCreation | date: 'dd/MM/yyyy à HH:mm' }}
+          <button type="button" (click)="supprimerCommentaire(c)">Supprimer</button>
+        </p>
+        <p class="message">{{ c.message }}</p>
+      </li>
+    } @empty {
+      <li>Aucun commentaire pour ce film.</li>
+    }
+  </ul>
+
+  <h3>Ajouter un commentaire</h3>
+  <form class="form-commentaire" (ngSubmit)="commenter()">
+    <input type="text" name="auteur" [(ngModel)]="auteur" placeholder="Votre nom" maxlength="100" required>
+    <textarea name="message" [(ngModel)]="message" placeholder="Votre commentaire" maxlength="2000" rows="3" required></textarea>
+    <button type="submit" [disabled]="!peutCommenter()">Publier</button>
+  </form>
+
   <p>
     <a [routerLink]="['/films', f.id, 'modifier']">Modifier</a>
     <button type="button" (click)="supprimer()">Supprimer</button>
