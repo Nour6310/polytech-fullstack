@@ -2,7 +2,9 @@
 package com.exemple.back.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -27,6 +29,8 @@ public class Film {
     private Genre genre;
     @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Role> roles = new HashSet<>();
+    @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Commentaire> commentaires = new ArrayList<>();
     
     public Film() { }
 
@@ -54,6 +58,9 @@ public class Film {
         }
     public Set<Role> getRoles() { 
         return roles; 
+        }
+    public List<Commentaire> getCommentaires() { 
+        return commentaires; 
         }
     public void setId(Long id) { 
         this.id = id; 

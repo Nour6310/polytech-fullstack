@@ -61,3 +61,56 @@ Accept: application/json
 ### Les acteurs d'un film inconnu — attendu : 404 au format ProblemDetail
 GET http://localhost:8080/films/9999/acteurs
 Accept: application/json
+
+### Commentaires du film 1 — attendu : 200, liste (éventuellement vide), du plus récent au plus ancien
+GET http://localhost:8080/films/1/commentaires
+Accept: application/json
+
+### Ajouter un commentaire au film 1 — attendu : 201 Created, en-tête Location /commentaires/{id}, date fixée par le serveur
+POST http://localhost:8080/films/1/commentaires
+Content-Type: application/json
+
+{
+  "auteur": "Nour",
+  "message": "Un film qui se revoit plusieurs fois."
+}
+
+### Lire un commentaire (URL du Location) — attendu : 200
+GET http://localhost:8080/commentaires/1
+Accept: application/json
+
+### Commentaire sans auteur — attendu : 400 au format ProblemDetail
+POST http://localhost:8080/films/1/commentaires
+Content-Type: application/json
+
+{
+  "auteur": "  ",
+  "message": "Message sans auteur"
+}
+
+### Commentaire sans message — attendu : 400 au format ProblemDetail
+POST http://localhost:8080/films/1/commentaires
+Content-Type: application/json
+
+{
+  "auteur": "Nour"
+}
+
+### Commentaire sur un film inconnu — attendu : 404 au format ProblemDetail
+POST http://localhost:8080/films/9999/commentaires
+Content-Type: application/json
+
+{
+  "auteur": "Nour",
+  "message": "Ce film n'existe pas"
+}
+
+### Commentaires d'un film inconnu — attendu : 404 au format ProblemDetail
+GET http://localhost:8080/films/9999/commentaires
+Accept: application/json
+
+### Supprimer le commentaire 1 — attendu : 204 No Content
+DELETE http://localhost:8080/commentaires/1
+
+### Supprimer un commentaire inconnu — attendu : 404 au format ProblemDetail
+DELETE http://localhost:8080/commentaires/9999
