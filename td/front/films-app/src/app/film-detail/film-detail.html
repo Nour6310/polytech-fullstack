@@ -15,12 +15,28 @@
     @for (a of f.acteurs ?? []; track a.id) {
       <li>
         <a [routerLink]="['/acteurs', a.id]">{{ a.prenom }} {{ a.nom }}</a>
+        <button type="button" (click)="dissocier(a)">Retirer</button>
       </li>
     } @empty {
       <li>Aucun acteur associé.</li>
     }
   </ul>
 
-  <a [routerLink]="['/films', f.id, 'modifier']">Modifier</a>
-  <button type="button" (click)="supprimer()">Supprimer</button>
+  <h3>Ajouter un acteur</h3>
+  @if (acteursDisponibles().length > 0) {
+    <select [(ngModel)]="acteurSelectionne">
+      <option [ngValue]="null">Choisir un acteur</option>
+      @for (a of acteursDisponibles(); track a.id) {
+        <option [ngValue]="a.id">{{ a.prenom }} {{ a.nom }}</option>
+      }
+    </select>
+    <button type="button" (click)="associer()" [disabled]="!acteurSelectionne()">Associer</button>
+  } @else {
+    <p>Tous les acteurs sont déjà associés à ce film.</p>
+  }
+
+  <p>
+    <a [routerLink]="['/films', f.id, 'modifier']">Modifier</a>
+    <button type="button" (click)="supprimer()">Supprimer</button>
+  </p>
 }
