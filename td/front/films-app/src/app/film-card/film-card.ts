@@ -12,10 +12,8 @@ import { Film } from '../film.model';
 })
 export class FilmCard {
 
-  // ENTRÉE : le film à afficher, donné par le parent (obligatoire)
   film = input.required<Film>();
 
-  // SORTIE : événement envoyé au parent quand on clique sur « Supprimer »
   supprimer = output<Film>();
 
   estAncien(): boolean {

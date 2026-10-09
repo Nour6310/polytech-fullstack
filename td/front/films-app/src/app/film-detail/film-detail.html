@@ -1,0 +1,26 @@
+<a routerLink="/films">← Retour à la liste</a>
+
+@if (erreur()) {
+  <p class="erreur">{{ erreur() }}</p>
+}
+
+@if (film(); as f) {
+  <h1>{{ f.titre }}</h1>
+  <p>Réalisateur : {{ f.realisateur }}</p>
+  <p>Date de sortie : {{ f.dateSortie | date: 'dd/MM/yyyy' }}</p>
+  <p>Genre : {{ f.genre }}</p>
+
+  <h2>Acteurs</h2>
+  <ul>
+    @for (a of f.acteurs ?? []; track a.id) {
+      <li>
+        <a [routerLink]="['/acteurs', a.id]">{{ a.prenom }} {{ a.nom }}</a>
+      </li>
+    } @empty {
+      <li>Aucun acteur associé.</li>
+    }
+  </ul>
+
+  <a [routerLink]="['/films', f.id, 'modifier']">Modifier</a>
+  <button type="button" (click)="supprimer()">Supprimer</button>
+}

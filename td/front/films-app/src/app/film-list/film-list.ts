@@ -36,7 +36,6 @@ export class FilmList implements OnInit {
       });
   }
 
-  // la carte a signalé une demande de suppression : c'est la liste qui décide
   onSupprimer(film: Film) {
     if (!confirm(`Supprimer « ${film.titre} » ?`)) {
       return;
