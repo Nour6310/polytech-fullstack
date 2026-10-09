@@ -1,14 +1,101 @@
+:root {
+  --primaire: #4f46e5;
+  --primaire-fonce: #3730a3;
+  --fond: #f5f6fa;
+  --carte: #ffffff;
+  --texte: #1f2937;
+  --gris: #6b7280;
+  --bordure: #e5e7eb;
+  --danger: #dc2626;
+  --danger-fonce: #b91c1c;
+  --ancien: #b45309;
+}
+
 body {
   font-family: system-ui, sans-serif;
   margin: 0;
-  color: #222;
+  background: var(--fond);
+  color: var(--texte);
 }
 
-button {
+h1 {
+  color: var(--primaire-fonce);
+}
+
+a {
+  color: var(--primaire);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button,
+.bouton {
+  display: inline-block;
+  background: var(--primaire);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.45rem 0.9rem;
   margin-left: 0.5rem;
+  font: inherit;
   cursor: pointer;
 }
 
+button:hover,
+.bouton:hover {
+  background: var(--primaire-fonce);
+  text-decoration: none;
+}
+
+button:disabled {
+  background: #c7c9d9;
+  cursor: not-allowed;
+}
+
+button.danger {
+  background: var(--danger);
+}
+
+button.danger:hover {
+  background: var(--danger-fonce);
+}
+
+input,
+select {
+  padding: 0.5rem;
+  border: 1px solid var(--bordure);
+  border-radius: 6px;
+  font: inherit;
+  background: #fff;
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid var(--primaire);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background: var(--carte);
+  border: 1px solid var(--bordure);
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  margin-bottom: 0.5rem;
+}
+
 .erreur {
-  color: crimson;
+  color: var(--danger);
+}
+
+p.erreur {
+  background: #fee2e2;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
 }

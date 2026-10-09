@@ -1,14 +1,23 @@
 nav {
   display: flex;
   gap: 1.5rem;
-  padding: 1rem;
-  border-bottom: 1px solid #ddd;
+  padding: 1rem 2rem;
+  background: var(--primaire);
+}
+
+nav a {
+  color: #fff;
+  opacity: 0.8;
+  font-weight: 500;
 }
 
 nav a.actif {
-  font-weight: bold;
+  opacity: 1;
+  border-bottom: 2px solid #fff;
 }
 
 main {
-  padding: 1rem;
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
 }

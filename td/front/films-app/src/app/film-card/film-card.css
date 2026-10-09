@@ -2,11 +2,26 @@
   display: flex;
   gap: 1rem;
   align-items: center;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #eee;
+  background: var(--carte);
+  border: 1px solid var(--bordure);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.6rem;
+}
+
+.carte span {
+  color: var(--gris);
+}
+
+.carte button {
+  margin-left: auto;
 }
 
 .ancien {
-  color: #8a5a00;
+  border-left: 4px solid var(--ancien);
+}
+
+.ancien a {
+  color: var(--ancien);
   font-style: italic;
 }
